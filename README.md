@@ -1,7 +1,7 @@
 # Passport-Bitbucket
 
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
-with Bitbucket using the OAuth 1.0a API.
+with [Bitbucket](https://bitbucket.org/) using the OAuth 1.0a API.
 
 ## Installation
 
