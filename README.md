@@ -22,7 +22,7 @@ accepts these credentials and calls `done` providing a user, as well as
         callbackURL: "http://127.0.0.1:3000/auth/bitbucket/callback"
       },
       function(token, tokenSecret, profile, done) {
-        User.findOrCreate({ bitbucketId: profile.id }, function (err, user) {
+        User.findOrCreate({ bitbucketId: profile.username }, function (err, user) {
           return done(err, user);
         });
       }
