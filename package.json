@@ -26,10 +26,10 @@
     "underscore": "1.4.4"
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "vows": "0.7.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
+    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js --spec"
   },
   "engines": { "node": ">= 0.4.0" },
   "contributors": [
