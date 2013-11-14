@@ -1,6 +1,6 @@
 {
   "name": "passport-bitbucket",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Bitbucket authentication strategy for Passport.",
   "keywords": ["passport", "bitbucket", "auth", "authn", "authentication", "identity"],
   "repository": {
@@ -22,13 +22,20 @@
   "main": "./lib/passport-bitbucket",
   "dependencies": {
     "pkginfo": "0.2.x",
-    "passport-oauth": "0.1.x"
+    "passport-oauth": "0.1.x",
+    "underscore": "1.4.4"
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "vows": "0.7.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
+    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js --spec"
   },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": { "node": ">= 0.4.0" },
+  "contributors": [
+      {
+          "name": "Samy Pesse",
+          "email": "samypesse@gmail.com"
+      }
+  ]
 }

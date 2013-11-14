@@ -99,6 +99,16 @@ vows.describe('BitbucketStrategy').addBatch({
                 "resource_uri": "/1.0/users/jaredhanson" \
             } \
         }';
+
+        if (url == "https://api.bitbucket.org/1.0/users/jaredhanson/emails") {
+          body = JSON.stringify([
+            {
+              "active": true,
+              "email": "jaredhanson@gmail.com",
+              "primary": true
+            }
+          ]);
+        }
         
         callback(null, body, undefined);
       }
@@ -127,6 +137,7 @@ vows.describe('BitbucketStrategy').addBatch({
         assert.equal(profile.displayName, 'Jared Hanson');
         assert.equal(profile.name.familyName, 'Hanson');
         assert.equal(profile.name.givenName, 'Jared');
+        assert.equal(profile.emails[0].value, 'jaredhanson@gmail.com');
       },
       'should set raw property' : function(err, profile) {
         assert.isString(profile._raw);
