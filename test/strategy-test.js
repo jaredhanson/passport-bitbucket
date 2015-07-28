@@ -1,7 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-var BitbucketStrategy = require('../lib/passport-bitbucket/strategy');
+var BitbucketStrategy = require('../lib/strategy');
 
 
 vows.describe('BitbucketStrategy').addBatch({
