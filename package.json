@@ -1,6 +1,6 @@
 {
   "name": "passport-bitbucket",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Bitbucket authentication strategy for Passport.",
   "keywords": ["passport", "bitbucket", "auth", "authn", "authentication", "identity"],
   "repository": {
