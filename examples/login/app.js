@@ -3,8 +3,8 @@ var express = require('express')
   , util = require('util')
   , BitbucketStrategy = require('passport-bitbucket').Strategy;
 
-var BITBUCKET_CONSUMER_KEY = "--insert-bitbucket-consumer-key-here--"
-var BITBUCKET_CONSUMER_SECRET = "--insert-bitbucket-consumer-secret-here--";
+var BITBUCKET_CLIENT_ID = "--insert-bitbucket-client-id-here--"
+var BITBUCKET_CLIENT_SECRET = "--insert-bitbucket-client-secret-here--";
 
 
 // Passport session setup.
@@ -28,8 +28,8 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, a token, tokenSecret, and Bitbucket profile),
 //   and invoke a callback with a user object.
 passport.use(new BitbucketStrategy({
-    consumerKey: BITBUCKET_CONSUMER_KEY,
-    consumerSecret: BITBUCKET_CONSUMER_SECRET,
+    clientID: BITBUCKET_CLIENT_ID,
+    clientSecret: BITBUCKET_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:3000/auth/bitbucket/callback"
   },
   function(token, tokenSecret, profile, done) {

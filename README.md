@@ -1,7 +1,7 @@
 # Passport-Bitbucket
 
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
-with [Bitbucket](https://bitbucket.org/) using the OAuth 1.0a API.
+with [Bitbucket](https://bitbucket.org/) using the OAuth 2.0 API.
 
 This module lets you authenticate using Bitbucket in your Node.js applications.
 By plugging into Passport, Bitbucket authentication can be easily and
@@ -23,11 +23,11 @@ accepts these credentials and calls `done` providing a user, as well as
 `options` specifying a consumer key, consumer secret, and callback URL.
 
     passport.use(new BitbucketStrategy({
-        consumerKey: BITBUCKET_CONSUMER_KEY,
-        consumerSecret: BITBUCKET_CONSUMER_SECRET,
+        clientID: BITBUCKET_CLIENT_ID,
+        clientSecret: BITBUCKET_CLIENT_SECRET,
         callbackURL: "http://127.0.0.1:3000/auth/bitbucket/callback"
       },
-      function(token, tokenSecret, profile, done) {
+      function(accessToken, refreshToken, profile, done) {
         User.findOrCreate({ bitbucketId: profile.username }, function (err, user) {
           return done(err, user);
         });

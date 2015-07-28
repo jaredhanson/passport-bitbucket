@@ -2,7 +2,7 @@
   "name": "passport-bitbucket-examples-login",
   "version": "0.0.0",
   "dependencies": {
-    "express": ">= 0.0.0",
+    "express": "^3.21.0",
     "ejs": ">= 0.0.0",
     "passport": ">= 0.0.0",
     "passport-bitbucket": ">= 0.0.0"
