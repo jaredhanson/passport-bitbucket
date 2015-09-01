@@ -3,6 +3,8 @@
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
 with [Bitbucket](https://bitbucket.org/) using the OAuth 1.0a API.
 
+#### If you would like to use bitbucket's OAuth 2.0 API please use [passport-bitbucket-oauth2](https://www.npmjs.com/package/passport-bitbucket-oauth2)
+
 This module lets you authenticate using Bitbucket in your Node.js applications.
 By plugging into Passport, Bitbucket authentication can be easily and
 unobtrusively integrated into any application or framework that supports
