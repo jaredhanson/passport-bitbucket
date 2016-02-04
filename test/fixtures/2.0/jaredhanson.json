@@ -1,0 +1,35 @@
+{
+  "username": "jaredhanson",
+  "website": "http://www.jaredhanson.net/",
+  "display_name": "Jared Hanson",
+  "uuid": "{76f43b39-9405-4ca8-9464-ef5aff1ab130}",
+  "links": {
+    "hooks": {
+      "href": "https://api.bitbucket.org/internal/users/jaredhanson/hooks"
+    },
+    "self": {
+      "href": "https://api.bitbucket.org/2.0/users/jaredhanson"
+    },
+    "repositories": {
+      "href": "https://api.bitbucket.org/2.0/repositories/jaredhanson"
+    },
+    "html": {
+      "href": "https://bitbucket.org/jaredhanson/"
+    },
+    "followers": {
+      "href": "https://api.bitbucket.org/2.0/users/jaredhanson/followers"
+    },
+    "avatar": {
+      "href": "https://bitbucket.org/account/jaredhanson/avatar/32/"
+    },
+    "following": {
+      "href": "https://api.bitbucket.org/2.0/users/jaredhanson/following"
+    },
+    "snippets": {
+      "href": "https://api.bitbucket.org/2.0/snippets/jaredhanson"
+    }
+  },
+  "created_on": "2011-10-23T04:04:42.290043+00:00",
+  "location": "",
+  "type": "user"
+}

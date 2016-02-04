@@ -4,10 +4,53 @@ var BitbucketStrategy = require('../lib/strategy')
 
 describe('Strategy#userProfile', function() {
   
-  describe('fetched from default endpoint', function() {
+  describe('fetched from API version 2 (default) endpoint', function() {
     var strategy = new BitbucketStrategy({
       consumerKey: 'ABC123',
       consumerSecret: 'secret'
+    }, function verify(){});
+    
+    strategy._oauth.get = function(url, token, tokenSecret, callback) {
+      if (url != 'https://api.bitbucket.org/2.0/user/') { return callback(new Error('incorrect url argument')); }
+      if (token != 'token') { return callback(new Error('incorrect token argument')); }
+      if (tokenSecret != 'token-secret') { return callback(new Error('incorrect tokenSecret argument')); }
+    
+      var body = require('fs').readFileSync('test/fixtures/2.0/jaredhanson.json', 'utf8');
+      callback(null, body, undefined);
+    }
+    
+    
+    var profile;
+  
+    before(function(done) {
+      strategy.userProfile('token', 'token-secret', {}, function(err, p) {
+        if (err) { return done(err); }
+        profile = p;
+        done();
+      });
+    });
+  
+    it('should parse profile', function() {
+      expect(profile.provider).to.equal('bitbucket');
+      expect(profile.id).to.equal('{76f43b39-9405-4ca8-9464-ef5aff1ab130}');
+      expect(profile.username).to.equal('jaredhanson');
+      expect(profile.displayName).to.equal('Jared Hanson');
+    });
+  
+    it('should set raw property', function() {
+      expect(profile._raw).to.be.a('string');
+    });
+  
+    it('should set json property', function() {
+      expect(profile._json).to.be.an('object');
+    });
+  }); // fetched from API version 2 (default) endpoint
+  
+  describe('fetched from API version 1 endpoint', function() {
+    var strategy = new BitbucketStrategy({
+      consumerKey: 'ABC123',
+      consumerSecret: 'secret',
+      userProfileURL: 'https://api.bitbucket.org/1.0/user/'
     }, function verify(){});
     
     strategy._oauth.get = function(url, token, tokenSecret, callback) {
@@ -91,7 +134,7 @@ describe('Strategy#userProfile', function() {
     var profile;
   
     before(function(done) {
-      strategy.userProfile('token', 'token-secret', { user_id: '6253282' }, function(err, p) {
+      strategy.userProfile('token', 'token-secret', {}, function(err, p) {
         if (err) { return done(err); }
         profile = p;
         done();
@@ -100,6 +143,7 @@ describe('Strategy#userProfile', function() {
   
     it('should parse profile', function() {
       expect(profile.provider).to.equal('bitbucket');
+      expect(profile.id).to.be.undefined;
       expect(profile.username).to.equal('jaredhanson');
       expect(profile.displayName).to.equal('Jared Hanson');
       expect(profile.name.familyName).to.equal('Hanson');
@@ -113,7 +157,7 @@ describe('Strategy#userProfile', function() {
     it('should set json property', function() {
       expect(profile._json).to.be.an('object');
     });
-  }); // fetched from default endpoint
+  }); // fetched from API version 1 endpoint
   
   describe('error caused by invalid token', function() {
     var strategy = new BitbucketStrategy({
