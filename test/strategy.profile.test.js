@@ -115,6 +115,37 @@ describe('Strategy#userProfile', function() {
     });
   }); // fetched from default endpoint
   
+  describe('error caused by invalid token', function() {
+    var strategy = new BitbucketStrategy({
+      consumerKey: 'ABC123',
+      consumerSecret: 'secret'
+    }, function verify(){});
+    
+    strategy._oauth.get = function(url, token, tokenSecret, callback) {
+      callback({ statusCode: 401, data: '' });
+    }
+    
+    
+    var err, profile;
+    
+    before(function(done) {
+      strategy.userProfile('x-token', 'token-secret', { user_id: '123' }, function(e, p) {
+        err = e;
+        profile = p;
+        done();
+      });
+    });
+  
+    it('should error', function() {
+      expect(err).to.be.an.instanceOf(Error);
+      expect(err.message).to.equal('Failed to fetch user profile');
+    });
+    
+    it('should not supply profile', function() {
+      expect(profile).to.be.undefined;
+    });
+  }); // error caused by invalid token
+  
   describe('error caused by malformed response', function() {
     var strategy = new BitbucketStrategy({
       consumerKey: 'ABC123',
