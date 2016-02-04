@@ -1,4 +1,10 @@
-# Passport-Bitbucket
+# passport-bitbucket
+
+[![Build](https://img.shields.io/travis/jaredhanson/passport-bitbucket.svg)](https://travis-ci.org/jaredhanson/passport-bitbucket)
+[![Coverage](https://img.shields.io/coveralls/jaredhanson/passport-bitbucket.svg)](https://coveralls.io/r/jaredhanson/passport-bitbucket)
+[![Quality](https://img.shields.io/codeclimate/github/jaredhanson/passport-bitbucket.svg?label=quality)](https://codeclimate.com/github/jaredhanson/passport-bitbucket)
+[![Dependencies](https://img.shields.io/david/jaredhanson/passport-bitbucket.svg)](https://david-dm.org/jaredhanson/passport-bitbucket)
+
 
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
 with [Bitbucket](https://bitbucket.org/) using the OAuth 1.0a API.
