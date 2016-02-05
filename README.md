@@ -1,3 +1,10 @@
+**NOTICE:** .  Bitbucket supports both OAuth 1.0 and OAuth 2.0. This strategy
+implements support for OAuth 1.0.  If you are building a new client, Bitbucket
+strongly suggest using OAuth 2.0 as the preferred authentication method.  In
+that case, [passport-bitbucket-oauth2](https://github.com/bithound/passport-bitbucket-oauth2)
+can be used as a strategy.
+
+
 # passport-bitbucket
 
 [![Build](https://img.shields.io/travis/jaredhanson/passport-bitbucket.svg)](https://travis-ci.org/jaredhanson/passport-bitbucket)
@@ -8,8 +15,6 @@
 
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
 with [Bitbucket](https://bitbucket.org/) using the OAuth 1.0a API.
-
-#### If you would like to use bitbucket's OAuth 2.0 API please use [passport-bitbucket-oauth2](https://www.npmjs.com/package/passport-bitbucket-oauth2)
 
 This module lets you authenticate using Bitbucket in your Node.js applications.
 By plugging into Passport, Bitbucket authentication can be easily and
