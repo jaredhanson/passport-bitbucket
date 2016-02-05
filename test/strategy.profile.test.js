@@ -342,6 +342,128 @@ describe('Strategy#userProfile', function() {
     });
   }); // fetched from API version 1 endpoint and then fetching emails
   
+  describe('fetched from API version 1 endpoint and then failing fetching emails', function() {
+    var strategy =  new BitbucketStrategy({
+      consumerKey: 'ABC123',
+      consumerSecret: 'secret',
+      userProfileURL: 'https://api.bitbucket.org/1.0/user/',
+      includeEmail: true
+    }, function() {});
+  
+    strategy._oauth.get = function(url, token, tokenSecret, callback) {
+      var body;
+      switch (url) {
+      case 'https://api.bitbucket.org/1.0/user/':
+        body = '{ \
+            "repositories": [ \
+              { \
+                  "scm": "git", \
+                  "has_wiki": false, \
+                  "last_updated": "2012-01-09 06:12:36", \
+                  "created_on": "2012-01-09 06:11:25", \
+                  "owner": "jaredhanson", \
+                  "logo": null, \
+                  "email_mailinglist": "", \
+                  "is_mq": false, \
+                  "size": 2515, \
+                  "read_only": false, \
+                  "fork_of": null, \
+                  "mq_of": null, \
+                  "state": "available", \
+                  "utc_created_on": "2012-01-09 05:11:25+00:00", \
+                  "website": "", \
+                  "description": "Secret project.", \
+                  "has_issues": false, \
+                  "is_fork": false, \
+                  "slug": "secret", \
+                  "is_private": true, \
+                  "name": "secret", \
+                  "language": "", \
+                  "utc_last_updated": "2012-01-09 05:12:36+00:00", \
+                  "email_writers": true, \
+                  "main_branch": "master", \
+                  "no_public_forks": false, \
+                  "resource_uri": "/api/1.0/repositories/jaredhanson/secret" \
+              }, \
+              { \
+                  "scm": "git", \
+                  "has_wiki": false, \
+                  "last_updated": "2012-01-12 08:46:02", \
+                  "created_on": "2011-12-15 01:03:27", \
+                  "owner": "jaredhanson", \
+                  "logo": null, \
+                  "email_mailinglist": "", \
+                  "is_mq": false, \
+                  "size": 99600, \
+                  "read_only": false, \
+                  "fork_of": null, \
+                  "mq_of": null, \
+                  "state": "available", \
+                  "utc_created_on": "2011-12-15 00:03:27+00:00", \
+                  "website": "", \
+                  "description": "Super secret project.", \
+                  "has_issues": false, \
+                  "is_fork": false, \
+                  "slug": "super-secret", \
+                  "is_private": true, \
+                  "name": "super-secret", \
+                  "language": "", \
+                  "utc_last_updated": "2012-01-12 07:46:02+00:00", \
+                  "email_writers": true, \
+                  "main_branch": "master", \
+                  "no_public_forks": false, \
+                  "resource_uri": "/api/1.0/repositories/jaredhanson/super-secret" \
+              } \
+            ], \
+            "user": { \
+                "username": "jaredhanson", \
+                "first_name": "Jared", \
+                "last_name": "Hanson", \
+                "avatar": "https://secure.gravatar.com/avatar/6c43616eef331e8ad08c7f90a51069a5?d=identicon&s=32", \
+                "resource_uri": "/1.0/users/jaredhanson" \
+            } \
+        }';
+        break;
+      case 'https://api.bitbucket.org/1.0/users/jaredhanson/emails':
+        return callback({ statusCode: 404,
+                          data: '{"error": {"message": "Resource not found", "detail": "There is no API hosted at this URL.\\n\\nFor information about our API\'s, please refer to the documentation at: https://confluence.atlassian.com/x/IYBGDQ"}}' });
+        break;
+      default:
+        return callback(new Error('wrong url argument'));
+      }
+      callback(null, body, undefined);
+    };
+    
+    
+    var profile;
+    
+    before(function(done) {
+      strategy.userProfile('token', 'token-secret', {}, function(err, p) {
+        if (err) { return done(err); }
+        profile = p;
+        done();
+      });
+    });
+    
+    it('should parse profile', function() {
+      expect(profile.provider).to.equal('bitbucket');
+      expect(profile.id).to.be.undefined;
+      expect(profile.username).to.equal('jaredhanson');
+      expect(profile.displayName).to.equal('Jared Hanson');
+      expect(profile.name.familyName).to.equal('Hanson');
+      expect(profile.name.givenName).to.equal('Jared');
+      expect(profile.emails).to.be.undefined;
+    });
+    
+    it('should set raw property', function() {
+      expect(profile._raw).to.be.a('string');
+    });
+    
+    it('should set json property', function() {
+      expect(profile._json).to.be.an('object');
+    });
+  }); // fetched from API version 1 endpoint and then failing to fetching emails
+  
   describe('error caused by invalid token', function() {
     var strategy = new BitbucketStrategy({
       consumerKey: 'ABC123',
