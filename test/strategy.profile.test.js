@@ -46,6 +46,62 @@ describe('Strategy#userProfile', function() {
     });
   }); // fetched from API version 2 (default) endpoint
   
+  describe('fetched from API version 2 (default) endpoint and then fetching emails', function() {
+    var strategy =  new BitbucketStrategy({
+      consumerKey: 'ABC123',
+      consumerSecret: 'secret',
+      includeEmail: true
+    }, function() {});
+  
+    strategy._oauth.get = function(url, token, tokenSecret, callback) {
+      var body;
+      switch (url) {
+      case 'https://api.bitbucket.org/2.0/user/':
+        body = require('fs').readFileSync('test/fixtures/2.0/jaredhanson.json', 'utf8');
+        break;
+      case 'https://api.bitbucket.org/2.0/user/emails':
+        body = '{"pagelen": 10, "values": [{"is_primary": true, "is_confirmed": true, "type": "email", "email": "test@gmail.com", "links": {"self": {"href": "https://api.bitbucket.org/2.0/user/emails/test@gmail.com"}}}, {"is_primary": false, "is_confirmed": true, "type": "email", "email": "hello@sifteo.com", "links": {"self": {"href": "https://api.bitbucket.org/2.0/user/emails/hello@sifteo.com"}}}], "page": 1, "size": 2}';
+        break;
+      default:
+        return callback(new Error('wrong url argument'));
+      }
+      callback(null, body, undefined);
+    };
+    
+    
+    var profile;
+    
+    before(function(done) {
+      strategy.userProfile('token', 'token-secret', {}, function(err, p) {
+        if (err) { return done(err); }
+        profile = p;
+        done();
+      });
+    });
+    
+    it('should parse profile', function() {
+      expect(profile.provider).to.equal('bitbucket');
+      expect(profile.id).to.equal('{76f43b39-9405-4ca8-9464-ef5aff1ab130}');
+      expect(profile.username).to.equal('jaredhanson');
+      expect(profile.displayName).to.equal('Jared Hanson');
+      expect(profile.emails).to.have.length(2);
+      expect(profile.emails[0].value).to.equal('test@gmail.com');
+      expect(profile.emails[0].primary).to.equal(true);
+      expect(profile.emails[0].verified).to.equal(true);
+      expect(profile.emails[1].value).to.equal('hello@sifteo.com');
+      expect(profile.emails[1].primary).to.equal(false);
+      expect(profile.emails[1].verified).to.equal(true);
+    });
+    
+    it('should set raw property', function() {
+      expect(profile._raw).to.be.a('string');
+    });
+    
+    it('should set json property', function() {
+      expect(profile._json).to.be.an('object');
+    });
+  }); // fetched from default endpoint and then fetching emails, where user has a publicly visible email address
+  
   describe('fetched from API version 1 endpoint', function() {
     var strategy = new BitbucketStrategy({
       consumerKey: 'ABC123',
