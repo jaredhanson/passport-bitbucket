@@ -1,4 +1,4 @@
-**NOTICE:** .  Bitbucket supports both OAuth 1.0 and OAuth 2.0. This strategy
+**NOTICE:** Bitbucket supports both OAuth 1.0 and OAuth 2.0. This strategy
 implements support for OAuth 1.0.  If you are building a new client, Bitbucket
 strongly suggest using OAuth 2.0 as the preferred authentication method.  In
 that case, [passport-bitbucket-oauth2](https://github.com/bithound/passport-bitbucket-oauth2)
